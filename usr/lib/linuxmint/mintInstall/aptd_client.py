@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import aptdaemon, sys, gettext
+import aptdaemon, sys, gettext, dbus
 from aptdaemon.client import AptClient
 
 # i18n
@@ -8,7 +8,7 @@ gettext.install("mintinstall", "/usr/share/linuxmint/locale")
 if len(sys.argv) == 3:
     operation = sys.argv[1]
     package = sys.argv[2]
-    aptd_client = AptClient()
+    aptd_client = AptClient() 
     if operation == "install":
         transaction = aptd_client.install_packages([package])    
         transaction.set_meta_data(mintinstall_label=_("Installing %s") % package)        
@@ -19,4 +19,10 @@ if len(sys.argv) == 3:
         print "Invalid operation: %s" % operation
         sys.exit(1)        
     transaction.set_meta_data(mintinstall_pkgname=package)
-    transaction.run()
+    try:
+        transaction.run()
+    except dbus.DBusException, detail:
+        if(type(detail).__name__ == "NotAuthorizedError"):
+            print "auth_not_given"
+            
+        

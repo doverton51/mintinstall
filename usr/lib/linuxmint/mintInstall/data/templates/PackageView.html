@@ -36,6 +36,7 @@
     //document.getElementById("button_$action_button_value").disabled = true;
     document.getElementById("button_$action_button_value").style.visibility = "hidden";
     changeTitle("call:on_button_clicked");
+    changeTitle("nop");
   }
   function action_screenshot_clicked() {   
     changeTitle("call:on_screenshot_clicked");
@@ -54,6 +55,10 @@
   }
   function disable_action_button() {
     document.getElementById("button_$action_button_value").disabled = true;
+  }
+  
+  function show_action_button() {
+    document.getElementById("button_$action_button_value").style.visibility="visible";
   }
   
   function addReview(mydate, username, rating, comment) { 
